@@ -1,0 +1,49 @@
+function doPost(e) {
+  var data = e.parameters.data;
+  var nameFaculty = e.parameters.faculty;
+  var nameClass = e.parameters.class;
+  var nameSession = e.parameters.session;
+  var mimetype = e.parameters.mimetype;
+  var filename = e.parameters.filename;
+  var data = Utilities.base64Decode(data);
+  var blob = Utilities.newBlob(data, mimetype, filename);
+  
+  var idF;
+  var Fs = DriveApp.getFoldersByName(nameFaculty);
+  if(Fs.hasNext()){
+    var F = Fs.next();
+    idF = F.getId();
+  }else{
+    var Faculty = DriveApp.createFolder(nameFaculty);
+    idF = Faculty.getId();
+  }
+  
+  var idC;
+  var Cs = DriveApp.getFoldersByName(nameClass);
+  if(Cs.hasNext()){
+    var C = Cs.next();
+    idC = C.getId();
+  }else{
+    var Class = DriveApp.getFolderById(idF).createFolder(nameClass);
+    idC = Class.getId();
+    
+  }
+  
+  var idS;
+  var Ss = DriveApp.getFoldersByName(nameSession);
+  if(Ss.hasNext()){
+    var S = Ss.next();
+    idS = S.getId();
+  }else{
+    var Session = DriveApp.getFolderById(idC).createFolder(nameSession);
+    idS = Session.getId();
+  }
+  
+  
+  var file = DriveApp.getFolderById(idS).createFile(blob);
+  file.setSharing(DriveApp.Access.ANYONE, DriveApp.Permission.VIEW);
+  file.setSharing(DriveApp.Access.ANYONE, DriveApp.Permission.COMMENT);
+  var url = file.getUrl();
+  
+  return ContentService.createTextOutput("Upload successfully. Techer save link upload: "+url);
+}
