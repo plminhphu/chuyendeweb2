@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <title>Hướng dẫn Danh sách File - SV Phạm Lê Minh Phú</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1><strong><center>Hướng dẫn Danh sách File</center></strong></h1>
+            <p>Đầu tiên vào https://script.google.com tạo project và past đoạn code đọc danh sách file:</p>
+            <blockquote>
+                <p>function doGet(e){<br />
+                    &nbsp; var output = HtmlService.createHtmlOutput();<br />
+                    &nbsp; var id = e.parameters.id;<br />
+                    &nbsp; var str = &quot;GG Drive API&lt;br&gt;&quot;;<br />
+                    &nbsp; if(id == null){<br />
+                    &nbsp; &nbsp; str = str + viewFileParent();<br />
+                    &nbsp; }else{<br />
+                    &nbsp; &nbsp; str = str + viewFileChild(id);<br />
+                    &nbsp; }<br />
+                    &nbsp; output.setContent(str);<br />
+                    &nbsp; return output;<br />
+                    }</p>
+
+                <p>function viewFileParent(){<br />
+                    &nbsp; var str = &#39;List Files:&lt;br&gt;&#39;;<br />
+                    &nbsp; var folder = DriveApp.getRootFolder();<br />
+                    &nbsp; str = view(folder);<br />
+                    &nbsp; return str;<br />
+                    }</p>
+
+                <p>function viewFileChild(id){<br />
+                    &nbsp; var str = &#39;List of &#39; + DriveApp.getFolderById(id).getName()+&#39;:&lt;br&gt;&#39;;<br />
+                    &nbsp; var folder = DriveApp.getFolderById(id);<br />
+                    &nbsp; str = view(folder);<br />
+                    &nbsp; return str;<br />
+                    }</p>
+
+                <p>function view(folder){<br />
+                    &nbsp; var files = folder.getFiles();<br />
+                    &nbsp; var file;<br />
+                    &nbsp; var str = &#39;&lt;br&gt;&#39;;<br />
+                    &nbsp; while (files.hasNext()){<br />
+                    &nbsp; &nbsp; file = files.next();<br />
+                    &nbsp; &nbsp; str = str + &#39; - Name: &#39; + file.getName() + &#39; &nbsp;|| ID: &#39; + file.getId() +<br />
+                    &nbsp; &nbsp; &#39; &nbsp;|| Size: &#39; + file.getSize() +&nbsp;<br />
+                    &nbsp; &nbsp; &#39;&lt;br&gt;&#39;;<br />
+                    &nbsp; }<br />
+                    &nbsp; return str;<br />
+                    }</p>
+            </blockquote>
+            <p>Tiến hành lưu lại và chạy project công khai. Copy URL của project.</p>
+            <p>Tiếp theo, tạo file listfile.html và thêm form sau:</p>
+            <blockquote>
+                <p>&lt;form action=&quot;&quot; method=&quot;get&quot; target=&quot;_blank&quot;&gt;<br />
+                    &nbsp; &nbsp; &lt;p&gt;ID Folder:&lt;/p&gt;<br />
+                    &nbsp; &nbsp; &lt;input type=&quot;text&quot; name=&quot;id&quot; required&gt;<br />
+                    &nbsp; &nbsp; &lt;br&gt;<br />
+                    &nbsp; &nbsp; &lt;input type=&quot;submit&quot;&gt;<br />
+                    &lt;/form&gt;</p>
+            </blockquote>
+            <p>Form sẽ hiển thị như hình:</p>
+            <img src="../images/danhsachfile_01.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Trong đó, phương thức action của form là url của project gs.</p>
+            <p>Tiến hành chạy file listfile.html.</p>
+            <p>Nhấn List Files Root để xem các file thư mục gốc. Kết quả như hình.</p>
+            <img src="../images/danhsachfile_02.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Nhập ID của folder để xem các file bên trong folder nó.  Kết quả như hình.</p>
+            <img src="../images/danhsachfile_03.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+        </div>
+        <hr>
+    </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <title>Hướng dẫn tải về 1 File - SV Phạm Lê Minh Phú</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1><strong><center>Hướng dẫn tải về 1 File</center></strong></h1>
+            <p>Đầu tiên vào https://script.google.com tạo project và past đoạn code đọc danh sách file:</p>
+            <blockquote>
+                <p>function doGet(e){<br />
+                    &nbsp; var output = HtmlService.createHtmlOutput();<br />
+                    &nbsp; var id = e.parameters.id;<br />
+                    &nbsp; var str = &quot;GG Drive API&lt;br&gt;&quot;;<br />
+                    &nbsp; if(id == null){<br />
+                    &nbsp; &nbsp; str = str + &#39;Not found ID File&#39;;<br />
+                    &nbsp; }else{<br />
+                    &nbsp; &nbsp; str = str + downloadfile(id);<br />
+                    &nbsp; }<br />
+                    &nbsp; output.setContent(str);<br />
+                    &nbsp; return output;<br />
+                    }</p>
+
+                <p>function downloadfile(id){<br />
+                    &nbsp; var file = DriveApp.getFileById(id);<br />
+                    &nbsp; file.setSharing(DriveApp.Access.ANYONE, DriveApp.Permission.VIEW);<br />
+                    &nbsp; var str = &#39;Name: &#39; + file.getName()+&#39;: &#39;;<br />
+                    &nbsp; str = str + &#39;&lt;a href=&quot;&#39; + file.getUrl() + &#39;&quot; target=&quot;_blank&quot;&gt;View File&lt;/a&gt; | &#39;;<br />
+                    &nbsp; str = str + &#39;&lt;a href=&quot;https://drive.google.com/uc?id=&#39; + id + &#39;&amp;export=download&quot; target=&quot;_blank&quot;&gt;Link Download&lt;/a&gt;&#39;;<br />
+                    &nbsp; return str;<br />
+                    }</p>
+            </blockquote>
+            <p>Tiến hành lưu lại và chạy project công khai. Copy URL của project.</p>
+            <p>Tiếp theo, tạo file downloadfile.html và thêm form sau:</p>
+            <blockquote>
+                <p>&lt;form action=&quot;&quot; method=&quot;get&quot; target=&quot;_blank&quot;&gt;<br />
+                    &nbsp; &nbsp; &lt;p&gt;ID File:&lt;/p&gt;<br />
+                    &nbsp; &nbsp; &lt;input type=&quot;text&quot; name=&quot;id&quot; required&gt;<br />
+                    &nbsp; &nbsp; &lt;br&gt;<br />
+                    &nbsp; &nbsp; &lt;input type=&quot;submit&quot;&gt;<br />
+                    &lt;/form&gt;</p>
+            </blockquote>
+            <p>Form sẽ hiển thị như hình:</p>
+            <img src="../images/taixuongfile_01.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Trong đó, phương thức action của form là url của project gs.</p>
+            <p>Tiến hành chạy file downloadfile.html.</p>
+            <p>Đầu tiên chúng ta cần có ID của file đó.</p>
+            <p>Hãy vào danh sách file đã làm trước, copy ID của 1 hình.</p>
+            <img src="../images/taixuongfile_02.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Past ID vừa copy vào ô ID và gửi đi.</p>
+            <img src="../images/taixuongfile_03.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Nếu ID file đúng và file tồn tại sẽ xuất hiện như hình.</p>
+            <img src="../images/taixuongfile_04.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Nhấn "View File" để mở chế độ xem trước file.</p>
+            <img src="../images/taixuongfile_05.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Nhấn "Link Download" để tự động tải xuống file.</p>
+            <img src="../images/taixuongfile_06.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+
+        </div>
+        <hr>
+    </body>
+</html>

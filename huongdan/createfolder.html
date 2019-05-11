@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <title>Hướng dẫn Tạo Folder - SV Phạm Lê Minh Phú</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1><strong><center>Hướng dẫn Tạo Folder</center></strong></h1>
+            <p>Đầu tiên vào https://script.google.com tạo project và past đoạn code tạo folder ày vào:</p>
+            <blockquote>
+                <p>function doGet(e){<br />
+                    &nbsp; var output = HtmlService.createHtmlOutput();<br />
+                    &nbsp; var idParent = e.parameters.idParent;<br />
+                    &nbsp; var name = e.parameters.name;<br />
+                    &nbsp; var str = &quot;GG Drive API&lt;br&gt;&quot;;<br />
+                    &nbsp; if(idParent == &#39;&#39;){<br />
+                    &nbsp; &nbsp; createFodler(name);<br />
+                    &nbsp; &nbsp; str = str + &#39;Create Folder Successfully&#39;;<br />
+                    &nbsp; }else{<br />
+                    &nbsp; &nbsp; createFodlerById(idParent, name);<br />
+                    &nbsp; &nbsp; str = str + &#39;Create Folder in &quot;&#39; + DriveApp.getFolderById(idParent).getName() + &#39;&quot; Successfully&#39;;<br />
+                    &nbsp; }<br />
+                    &nbsp; output.setContent(str);<br />
+                    &nbsp; return output;<br />
+                    }</p>
+
+                <p>function createFodler(name){<br />
+                    &nbsp; DriveApp.createFolder(name);<br />
+                    }</p>
+
+                <p>function createFodlerById(idParent, name){<br />
+                    &nbsp; DriveApp.getFolderById(idParent).createFolder(name);<br />
+                    }</p>
+            </blockquote>
+            <p>Tiến hành lưu lại và chạy project công khai. Copy URL của project.</p>
+            <p>Tạo file createfolder.html và thêm form sau:</p>
+            <blockquote>
+                <p>&lt;form action=&quot;&quot; method=&quot;get&quot; target=&quot;_blank&quot;&gt;<br />
+                    &nbsp; &nbsp; &lt;p&gt;Nhập ID thư mục cha, bỏ trống nếu l&agrave; thư mục gốc:&lt;/p&gt;<br />
+                    &nbsp; &nbsp; &lt;input type=&quot;text&quot; name=&quot;idParent&quot;&gt;<br />
+                    &nbsp; &nbsp; &lt;p&gt;T&ecirc;n thư mục:&lt;/p&gt;<br />
+                    &nbsp; &nbsp; &lt;input type=&quot;text&quot; name=&quot;name&quot; required&gt;<br />
+                    &nbsp; &nbsp; &lt;br&gt;<br />
+                    &nbsp; &nbsp; &lt;input type=&quot;submit&quot;&gt;<br />
+                    &lt;/form&gt;</p>
+            </blockquote>
+            <p>Form sẽ hiển thị như hình:</p>
+            <img src="../images/taofolder_01.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Trong đó, phương thức action của form là url của project gs.</p>
+            <p>Tiến hành chạy file createfolder.html.</p>
+            <p>Thử tạo một thư mục 'demo1':</p>
+            <img src="../images/taofolder_02.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Khi đã có thông báo "Create Folder Successfully" hãy vào Drive để kiểm tra.</p>
+            <img src="../images/taofolder_03.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Tương tự tạo thêm con của 'demo1' là 'demo1.1' và đừng quên lấy ID của folder 'demo1' nhé.</p>
+            <img src="../images/taofolder_04.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Bây giờ chỉ cần gửi đi, thư mục sẽ được thêm vào đúng vị trí.</p>
+            <img src="../images/taofolder_05.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Kết quả.</p>
+            <img src="../images/taofolder_06.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            
+        </div>
+        <hr>
+    </body>
+</html>

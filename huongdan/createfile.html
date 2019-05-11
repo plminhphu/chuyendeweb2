@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <title>Hướng dẫn Tạo File - SV Phạm Lê Minh Phú</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1><strong><center>Hướng dẫn Tạo File</center></strong></h1>
+            <p>Đầu tiên vào https://script.google.com tạo project và past đoạn code tạo file này vào:</p>
+            <blockquote>
+                <p>function doGet(e){<br />
+                    &nbsp; var output = HtmlService.createHtmlOutput();<br />
+                    &nbsp; var idParent = e.parameters.idParent;<br />
+                    &nbsp; var name = e.parameters.name;<br />
+                    &nbsp; var content = e.parameters.content;<br />
+                    &nbsp; var str = &quot;GG Drive API&lt;br&gt;&quot;;<br />
+                    &nbsp; if(idParent == null){<br />
+                    &nbsp; &nbsp; createFile(name, content);<br />
+                    &nbsp; &nbsp; str = str + &#39;Create File Successfully&#39;;<br />
+                    &nbsp; }else{<br />
+                    &nbsp; &nbsp; createFileById(idParent, name, content);<br />
+                    &nbsp; &nbsp; str = str + &#39;Create File in &quot;&#39; + DriveApp.getFolderById(idParent).getName() + &#39;&quot; Successfully&#39;;<br />
+                    &nbsp; }&nbsp;<br />
+                    &nbsp; output.setContent(str);<br />
+                    &nbsp; return output;<br />
+                    }</p>
+
+                <p>function createFile(name, content){<br />
+                    &nbsp; DriveApp.createFile(name, content);<br />
+                    }</p>
+
+                <p>function createFileById(idParent, name, content){<br />
+                    &nbsp; DriveApp.getFolderById(idParent).createFile(name, content);<br />
+                    }</p>
+            </blockquote>
+            <p>Tiến hành lưu lại và chạy project công khai. Copy URL của project.</p>
+            <p>Tạo file createfile.html và thêm form sau:</p>
+            <blockquote>
+                <p>&lt;form action=&quot;&quot; method=&quot;get&quot; target=&quot;_blank&quot;&gt;<br />
+                    &nbsp; &nbsp; &lt;p&gt;Nhập ID thư mục cha, bỏ trống nếu l&agrave; thư mục gốc:&lt;/p&gt;<br />
+                    &nbsp; &nbsp; &lt;input type=&quot;text&quot; name=&quot;idParent&quot;&gt;<br />
+                    &nbsp; &nbsp; &lt;p&gt;T&ecirc;n File:<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &lt;span&gt;[T&ecirc;n File bao gồm cả đu&ocirc;i định dạng. VD: index.html]&lt;/span&gt;<br />
+                    &nbsp; &nbsp; &lt;/p&gt;<br />
+                    &nbsp; &nbsp; &lt;input type=&quot;text&quot; name=&quot;name&quot; required&gt;<br />
+                    &nbsp; &nbsp; &lt;p&gt;Nội dung:&lt;/p&gt;<br />
+                    &nbsp; &nbsp; &lt;textarea name=&quot;content&quot; required&gt;&lt;/textarea&gt;<br />
+                    &nbsp; &nbsp; &lt;br&gt;<br />
+                    &nbsp; &nbsp; &lt;input type=&quot;submit&quot;&gt;<br />
+                    &lt;/form&gt;</p>
+            </blockquote>
+            <p>Form sẽ hiển thị như hình:</p>
+            <img src="../images/taofile_01.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Trong đó, phương thức action của form là url của project gs.</p>
+            <p>Tiến hành chạy file createfile.html.</p>
+            <p>Giờ hãy thử tạo một file txt nhé. Nhớ nhập thông tin đúng theo chỉ dẫn của form.</p>
+            <img src="../images/taofile_02.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Bạn cũng có thể nhập ID Folder để lưu file nữa nhé.</p>
+            <img src="../images/taofile_03.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            
+        </div>
+        <hr>
+    </body>
+</html>

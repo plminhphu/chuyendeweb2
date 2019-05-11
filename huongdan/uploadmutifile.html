@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <title>Hướng dẫn tải lên nhiều file - SV Phạm Lê Minh Phú</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1><strong><center>Hướng dẫn tải lên nhiều file</center></strong></h1>
+            <p>Đầu tiên vào https://script.google.com tạo project và past đoạn code tải nhiều file này:</p>
+            <blockquote>
+                <p>function doPost(e) {<br />
+                    &nbsp; var output = HtmlService.createHtmlOutput();<br />
+                    &nbsp; var leng = e.parameters.leng;<br />
+                    &nbsp; var data = e.parameters.data;<br />
+                    &nbsp; var mimetype = e.parameters.mimetype;<br />
+                    &nbsp; var filename = e.parameters.filename;<br />
+                    &nbsp; var id = e.parameters.id;<br />
+                    &nbsp; var string = &#39;GG Drive App Script:&lt;br&gt;&#39;;<br />
+                    &nbsp; if(id != &#39;&#39;){<br />
+                    &nbsp; &nbsp; var i;<br />
+                    &nbsp; &nbsp; for(i=0;i&lt;leng;i++){<br />
+                    &nbsp; &nbsp; &nbsp; string = string + &#39;Upload all file in folder &#39; + DriveApp.getFolderById(id).getName()+&#39;:&lt;br&gt;&#39;;<br />
+                    &nbsp; &nbsp; &nbsp; string = string + i + &#39;-&#39; + uploadfiletofolder(id, data[i], mimetype[i], filename[i]);<br />
+                    &nbsp; &nbsp; }<br />
+                    &nbsp; }else{<br />
+                    &nbsp; &nbsp; var i;<br />
+                    &nbsp; &nbsp; for(i=0;i&lt;leng;i++){<br />
+                    &nbsp; &nbsp; &nbsp; string = string + &#39;Upload all file in Root :&lt;br&gt;&#39;;<br />
+                    &nbsp; &nbsp; &nbsp; string = string + i + &#39;-&#39; + uploadfile(data[i], mimetype[i], filename[i]);<br />
+                    &nbsp; &nbsp; }<br />
+                    &nbsp; }<br />
+                    &nbsp; output.setContent(string);<br />
+                    &nbsp; return output;<br />
+                    }</p>
+
+                <p>function uploadfile(data, mimetype, filename){<br />
+                    &nbsp; var data = Utilities.base64Decode(data);<br />
+                    &nbsp; var blob = Utilities.newBlob(data, mimetype, filename);<br />
+                    &nbsp; var file = DriveApp.getRootFolder().createFile(blob);<br />
+                    &nbsp; file.setSharing(DriveApp.Access.ANYONE, DriveApp.Permission.VIEW);<br />
+                    &nbsp; var url = file.getUrl();<br />
+                    &nbsp; return file.getName() + &#39;: &lt;a target=&quot;_blank&quot; href=&quot;&#39; + url + &#39;&quot;&gt;URL&lt;/a&gt;&lt;br&gt;&#39;;<br />
+                    }</p>
+
+                <p>function uploadfiletofolder(id, data, mimetype, filename){<br />
+                    &nbsp; var data = Utilities.base64Decode(data);<br />
+                    &nbsp; var blob = Utilities.newBlob(data, mimetype, filename);<br />
+                    &nbsp; var file = DriveApp.getFolderById(id).createFile(blob);<br />
+                    &nbsp; file.setSharing(DriveApp.Access.ANYONE, DriveApp.Permission.VIEW);<br />
+                    &nbsp; var url = file.getUrl();<br />
+                    &nbsp; return file.getName() + &#39;: &lt;a target=&quot;_blank&quot; href=&quot;&#39; + url + &#39;&quot;&gt;URL&lt;/a&gt;&lt;br&gt;&#39;;<br />
+                    }</p>
+            </blockquote>
+            <p>Tiến hành lưu lại và chạy project công khai. Copy URL của project.</p>
+            <p>Tiếp theo, tạo file uploadmutifile.html và thêm form sau:</p>
+            <blockquote>
+                <p>&lt;form action=&quot;&quot; method=&quot;post&quot; target=&quot;_blank&quot;&gt;<br />
+                    &nbsp; &nbsp; &lt;p&gt;Nhập ID Folder, bỏ trống nếu l&agrave; Folder gốc:&lt;/p&gt;<br />
+                    &nbsp; &nbsp; &lt;input type=&quot;text&quot; name=&quot;id&quot;&gt;<br />
+                    &nbsp; &nbsp; &lt;br&gt;&lt;br&gt;<br />
+                    &nbsp; &nbsp; &lt;p&gt;Chọn 1 hoặc nhiều tệp v&agrave; upload:&lt;/p&gt;<br />
+                    &nbsp; &nbsp; &lt;div id=&quot;data&quot;&gt;&lt;/div&gt;<br />
+                    &nbsp; &nbsp; &lt;input name=&quot;files&quot; id=&quot;uploadfiles&quot; type=&quot;file&quot; multiple required&gt;<br />
+                    &nbsp; &nbsp; &lt;script&gt;<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; $(&#39;#uploadfiles&#39;).on(&quot;change&quot;, function () {<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var files = this.files;<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var i;<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (i = 0; i &lt; files.length; i++) {<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var file = files[i];<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var fr = new FileReader();<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; fr.fileName = file.name;<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; fr.i = i;<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; fr.onload = function (e) {<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; html = &#39;&lt;input type=&quot;hidden&quot; name=&quot;data&quot; value=&quot;&#39; + e.target.result.replace(/^.*,/, &#39;&#39;) + &#39;&quot; &gt;&#39;;<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; html += &#39;&lt;input type=&quot;hidden&quot; name=&quot;mimetype&quot; value=&quot;&#39; + e.target.result.match(/^.*(?=;)/)[0] + &#39;&quot; &gt;&#39;;<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; html += &#39;&lt;input type=&quot;hidden&quot; name=&quot;filename&quot; value=&quot;&#39; + e.target.fileName + &#39;&quot; &gt;&#39;;<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $(&quot;#data&quot;).append(html);<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; fr.readAsDataURL(file);<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $(&quot;#data&quot;).append(&#39;&lt;input type=&quot;hidden&quot; name=&quot;leng&quot; value=&quot;&#39; + files.length + &#39;&quot; &gt;&#39;);<br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; });<br />
+                    &nbsp; &nbsp; &lt;/script&gt;<br />
+                    &nbsp; &nbsp; &lt;br&gt;<br />
+                    &nbsp; &nbsp; &lt;input type=&quot;submit&quot;&gt;<br />
+                    &lt;/form&gt;</p>
+            </blockquote>
+            <p>Form sẽ hiển thị như hình:</p>
+            <img src="../images/tailennhieufile_01.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Trong đó, phương thức action của form là url của project gs.</p>
+            <p>Lưu ý method phải là post vì Project GS của chúng ta nhận hàm doPost.</p>
+            <p>Đoạn Javascript này dùng để mã hóa các dữ liệu cần thiết tất cả các file sau khi nhấn mở file. Dữ liệu này cần truyền đi đểupload</p>
+            <img src="../images/tailennhieufile_02.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Tiến hành chạy file uploadmutifile.html.</p>
+            <p>Nhấn mở một vài file hình ảnh và upload thử (nên nhiều hơn 1).</p>
+            <img src="../images/tailennhieufile_03.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Nếu thông báo kết quả thành công và kèm theo danh sách tên File thì file đã được upload thành công.</p>
+            <p>Các file bị lỗi sẽ không được thông báo trong danh sách.</p>
+            <img src="../images/tailennhieufile_04.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Vào Drive thư mục gốc để kiểm tra.</p>
+            <img src="../images/tailennhieufile_05.PNG" width="70%" class="img-reponsive" style="border: 1px solid black;">
+            <p>Tương tự chúng ta có thể nhập ID Folder để upload các file đó thẳng vào thư mục cần upload.</p>
+        </div>
+        <hr>
+    </body>
+</html>
